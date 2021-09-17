@@ -1,7 +1,7 @@
 import requests
-urlFrom = 'https://cloud.website.com'
+urlFrom = 'https://cloud.domain.org'
 authFrom = ('user', 'password')
-outFile = 'out.json'
+outFile = '/tmp/nextcloud_deck_export.json'
 headers={'OCS-APIRequest': 'true', 'Content-Type': 'application/json'}
 
 def getBoards():
@@ -153,8 +153,8 @@ for board in boards:
     board['stacks'] = stacks
 
     # get archived stacks
-    archived_stacks = getStacksArchived(boardIdFrom)
-    boards['archivedStacks'] = archived_stacks
+    # archived_stacks = getStacksArchived(boardIdFrom)
+    # boards['archivedStacks'] = archived_stacks
 
 import json
 json = json.dumps(boards, indent=4)

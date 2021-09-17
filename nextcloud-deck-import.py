@@ -1,7 +1,7 @@
 import requests
 inFile = r'/tmp/nextcloud_deck_export.json'
-urlTo = 'https://nextcloud.domainto.tld'
-authTo = ('username', 'password')
+urlTo = 'https://cloud.domain.org'
+authTo = ('user', 'password')
 
 headers={'OCS-APIRequest': 'true', 'Content-Type': 'application/json'}
 
@@ -151,11 +151,13 @@ for board in boards:
     print('Created board', board['title'])
 
     # create labels
+    labelsMap = {}
     for label in board['labels']:
         createdLabel = createLabel(label['title'], label['color'], boardIdTo)
         labelsMap[label['id']] = createdLabel['id']
 
     # import active stacks
+    stacksMap = {}
     for stack in board['stacks']:
         createdStack = createStack(stack['title'], stack['order'], boardIdTo)
         stackIdTo = createdStack['id']
@@ -168,12 +170,12 @@ for board in boards:
             copyCard(card, boardIdTo, stackIdTo, labelsMap)
         print('    Created', len(stack['cards']), 'cards')
 
-    # import archived stacks
-    for stack in board['archivedStacks']:
-        # copy cards
-        if not 'cards' in stack:
-            continue
-        print('  Stack', stack['title'])
-        for card in stack['cards']:
-            copyCard(card, boardIdTo, stacksMap[stack['id']], labelsMap)
-        print('    Created', len(stack['cards']), 'archived cards')
+    # # import archived stacks
+    # for stack in board['archivedStacks']:
+    #     # copy cards
+    #     if not 'cards' in stack:
+    #         continue
+    #     print('  Stack', stack['title'])
+    #     for card in stack['cards']:
+    #         copyCard(card, boardIdTo, stacksMap[stack['id']], labelsMap)
+    #     print('    Created', len(stack['cards']), 'archived cards')
