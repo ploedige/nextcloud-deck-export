@@ -1,12 +1,7 @@
 import requests
-urlFrom = 'https://cloud.domainfrom.tld'
-authFrom = ('username', 'password')
-
-urlTo = 'https://nextcloud.domainto.tld'
-authTo = ('username', 'password')
-
+urlFrom = 'https://cloud.website.com'
+authFrom = ('user', 'password')
 headers={'OCS-APIRequest': 'true', 'Content-Type': 'application/json'}
-
 
 def getBoards():
     response = requests.get(
@@ -147,40 +142,18 @@ boards = getBoards()
 # create boards
 for board in boards:
     boardIdFrom = board['id']
-    # create board
-    createdBoard = createBoard(board['title'], board['color'])
-    boardIdTo = createdBoard['id']
-    print('Created board', board['title'])
 
     # create labels
     boardDetails = getBoardDetails(board['id'])
-    labelsMap = {}
-    for label in boardDetails['labels']:
-        createdLabel = createLabel(label['title'], label['color'], boardIdTo)
-        labelsMap[label['id']] = createdLabel['id']
 
     # copy stacks
     stacks = getStacks(boardIdFrom)
-    stacksMap = {}
-    for stack in stacks:
-        createdStack = createStack(stack['title'], stack['order'], boardIdTo)
-        stackIdTo = createdStack['id']
-        stacksMap[stack['id']] = stackIdTo
-        print('  Created stack', stack['title'])
-        # copy cards
-        if not 'cards' in stack:
-            continue
-        for card in stack['cards']:
-            copyCard(card, boardIdTo, stackIdTo, labelsMap)
-        print('    Created', len(stack['cards']), 'cards')
+    board['stacks'] = stacks
 
-    # copy archived stacks
-    stacks = getStacksArchived(boardIdFrom)
-    for stack in stacks:
-        # copy cards
-        if not 'cards' in stack:
-            continue
-        print('  Stack', stack['title'])
-        for card in stack['cards']:
-            copyCard(card, boardIdTo, stacksMap[stack['id']], labelsMap)
-        print('    Created', len(stack['cards']), 'archived cards')
+import json
+json = json.dumps(boards, indent=4)
+
+from contextlib import redirect_stdout
+with open('/tmp/nextcloud_deck_export.json', 'w') as f:
+    with redirect_stdout(f):
+        print(json)
