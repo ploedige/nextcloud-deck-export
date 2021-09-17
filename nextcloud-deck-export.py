@@ -144,12 +144,17 @@ boards = getBoards()
 for board in boards:
     boardIdFrom = board['id']
 
-    # create labels
+    # get labels
     boardDetails = getBoardDetails(board['id'])
+    board['labels'] = boardDetails['labels']
 
-    # copy stacks
+    # get active stacks
     stacks = getStacks(boardIdFrom)
     board['stacks'] = stacks
+
+    # get archived stacks
+    archived_stacks = getStacksArchived(boardIdFrom)
+    boards['archivedStacks'] = archived_stacks
 
 import json
 json = json.dumps(boards, indent=4)
