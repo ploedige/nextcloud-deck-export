@@ -1,10 +1,8 @@
-# nextcloud-deck-export-import
+# nextcloud-deck-export
 
-This code was imported from [@svbergerem](https://gist.github.com/svbergerem) [gist](https://gist.github.com/svbergerem/5914d7f87764901aefddba125af99938).
+This code is a fork of the [keitalbame/nextcloud-deck-export-import](https://github.com/keitalbame/nextcloud-deck-export-import)
 
-This is mainly to show how to use the script with a Nextcloud instance using self signed certificates.
-
-The code in master branch have the original code and branch self-signed-certs will have the adjusted code.
+The functionality was reduced to only output the deck content to a json file.
 
 ## Before run the script
 
@@ -17,10 +15,6 @@ Reenable it after import is finished.
    ```
    git clone https://github.com/keitalbame/nextcloud-deck-export-import.git
    ```
-   If you want the self signed certificate version:
-   ```
-   git clone https://github.com/keitalbame/nextcloud-deck-export-import.git -b self-signed-certs
-   ```
 2. Change to folder
    ```
    cd nextcloud-deck-export-import
@@ -28,8 +22,7 @@ Reenable it after import is finished.
 3. Adapt variables for your instances:
    * urlFrom
    * authFrom
-   * urlTo
-   * authTo
+   * outFile
 4. Run python script
    ```
    python nextcloud-deck-export-import.py

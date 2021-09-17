@@ -1,6 +1,7 @@
 import requests
 urlFrom = 'https://cloud.website.com'
 authFrom = ('user', 'password')
+outFile = 'out.json'
 headers={'OCS-APIRequest': 'true', 'Content-Type': 'application/json'}
 
 def getBoards():
@@ -154,6 +155,6 @@ import json
 json = json.dumps(boards, indent=4)
 
 from contextlib import redirect_stdout
-with open('/tmp/nextcloud_deck_export.json', 'w') as f:
+with open(outFile, 'w') as f:
     with redirect_stdout(f):
         print(json)
